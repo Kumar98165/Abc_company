@@ -1,26 +1,188 @@
 @import "tailwindcss";
 
+/* ─── Mastercard-Inspired Design Tokens ─── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Background: warm cream — the signature Mastercard page background */
+  --color-canvas: #F5EFE6;
+  --color-canvas-2: #EDE5D8;
+
+  /* Text */
+  --color-ink: #1A1A1A;
+  --color-navy: #1A1A1A;
+  --color-navy-2: #2D2D2D;
+  --color-copy: #1A1A1A;
+  --color-muted: #6B6B6B;
+
+  /* Mastercard Brand Palette */
+  --color-accent: #FF5F00;   /* Mastercard Orange */
+  --color-accent-2: #F79E1B; /* Mastercard Gold */
+  --color-red: #EB001B;      /* Mastercard Red */
+
+  /* Borders & Surfaces */
+  --color-line: #DDD4C7;
+  --color-surface: #FFFFFF;
+  --color-surface-2: #FAF6F0;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-canvas: var(--color-canvas);
+  --color-ink: var(--color-ink);
+  --color-navy: var(--color-navy);
+  --color-navy-2: var(--color-navy-2);
+  --color-accent: var(--color-accent);
+  --color-accent-2: var(--color-accent-2);
+  --color-copy: var(--color-copy);
+  --color-muted: var(--color-muted);
+  --color-line: var(--color-line);
+
+  /* Map sky/blue classes to Mastercard orange/red palette */
+  --color-sky-50:  #FFF4EC;
+  --color-sky-100: #FFE5CC;
+  --color-sky-200: #FFCCA0;
+  --color-sky-300: #FFA966;
+  --color-sky-400: #F79E1B;
+  --color-sky-500: #FF5F00;
+  --color-sky-600: #EB001B;
+  --color-sky-700: #C5001A;
+  --color-sky-800: #9A0015;
+  --color-sky-900: #6E000F;
+
+  --color-blue-50:  #FFF4EC;
+  --color-blue-100: #FFE5CC;
+  --color-blue-300: #FFA966;
+  --color-blue-400: #F79E1B;
+  --color-blue-500: #FF5F00;
+  --color-blue-600: #EB001B;
+  --color-blue-700: #C5001A;
+
+  /* Use Inter as the primary font */
+  --font-sans: var(--font-inter);
+  --font-geist-sans: var(--font-inter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─── Base Reset ─── */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: var(--color-canvas);
+  color: var(--color-copy);
+  font-family: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body,
+html {
+  min-height: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Orange selection highlight — Mastercard branded */
+::selection {
+  background: rgba(255, 95, 0, 0.18);
+  color: var(--color-copy);
+}
+
+:focus-visible {
+  outline: 2px solid #FF5F00;
+  outline-offset: 2px;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* ─── Layout Utilities ─── */
+.section-shell {
+  width: 100%;
+  max-width: 1400px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4vw, 48px);
+}
+
+.section-space {
+  padding-block: clamp(72px, 10vw, 152px);
+}
+
+.section-space-tight {
+  padding-block: clamp(56px, 8vw, 112px);
+}
+
+.anchor-offset {
+  scroll-margin-top: 132px;
+}
+
+/* ─── Warm tinted grid backdrop ─── */
+.grid-backdrop {
+  background-image:
+    linear-gradient(to right, rgba(180, 150, 110, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(180, 150, 110, 0.12) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ─── Floating Animations ─── */
+.hero-float {
+  animation: float-card 10s ease-in-out infinite;
+}
+
+.hero-float-delay {
+  animation: float-card 11.5s ease-in-out infinite 1.4s;
+}
+
+.ai-network path {
+  fill: none;
+  stroke: rgba(255, 95, 0, 0.22);
+  stroke-width: 1.35;
+  stroke-dasharray: 8 10;
+  animation: dash-line 18s linear infinite;
+}
+
+@keyframes float-card {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes dash-line {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -180;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
