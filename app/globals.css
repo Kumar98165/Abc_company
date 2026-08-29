@@ -186,3 +186,47 @@ img {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ─── Logo Marquee Slider Animation ─── */
+.logo-slider {
+  animation: logoScroll 25s linear infinite;
+}
+
+.logo-slider:hover {
+  animation-play-state: paused;
+}
+
+@keyframes logoScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-slider {
+    animation: none !important;
+  }
+}
+
+/* ─── Hero Carousel Transition & Float Animations ─── */
+.animate-float {
+  animation: float-card 6s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

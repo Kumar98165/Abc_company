@@ -2,7 +2,6 @@
 
 import { siteConfig } from "@/data/home";
 import { useEffect, useState, useRef } from "react";
-import { TopBar } from "./TopBar";
 import { usePathname } from "next/navigation";
 
 interface DropdownItem {
@@ -309,7 +308,6 @@ export function Navbar() {
 
   return (
     <header className={["fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-in-out", mounted ? "opacity-100" : "opacity-0"].join(" ")} ref={headerRef}>
-      <TopBar />
       <div className={["transition-all duration-300 origin-top", wrapperClass].join(" ")}>
         <div className="section-shell">
           <nav className="flex h-20 items-center justify-between gap-4" aria-label="Primary navigation">

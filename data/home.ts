@@ -57,27 +57,27 @@ export const trustMarks = [
 export const aboutValues = [
   {
     number: "01",
-    title: "Experience",
+    title: "Product Thinking",
     description:
-      "Cross-functional product, platform and delivery experience across complex software programs.",
+      "From business requirements to working software, we turn ideas into practical, user-focused products.",
   },
   {
     number: "02",
     title: "Engineering Excellence",
     description:
-      "Reliable implementation standards, clean architecture and quality-minded delivery practices.",
+      "We build secure, scalable and maintainable applications using modern technologies and proven engineering practices.",
   },
   {
     number: "03",
-    title: "Business Focus",
+    title: "AI & Innovation",
     description:
-      "Solutions shaped around operational needs, customer outcomes and measurable business priorities.",
+      "We use AI, automation and emerging technologies to create smarter and more efficient business solutions.",
   },
   {
     number: "04",
     title: "Long-Term Partnership",
     description:
-      "A collaborative delivery model built for iteration, support and sustained product growth.",
+      "We work alongside our customers beyond delivery—with continuous improvements, support and product growth.",
   },
 ];
 

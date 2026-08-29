@@ -12,7 +12,6 @@ import { Services } from "@/components/home/Services";
 import { TechnologyStack } from "@/components/home/TechnologyStack";
 import { Testimonials } from "@/components/home/Testimonials";
 import { TrustLogos } from "@/components/home/TrustLogos";
-import { WhyChooseUs } from "@/components/home/WhyChooseUs";
 
 export default function Home() {
   const schemaOrg = {
@@ -64,13 +63,12 @@ export default function Home() {
         <Hero />
         <TrustLogos />
         <About />
-        <WhyChooseUs />
+        <Process />
         <Services />
         <AITechnology />
         <Industries />
         <CaseStudies />
         <TechnologyStack />
-        <Process />
         <Testimonials />
         <FAQ />
         <CTA />

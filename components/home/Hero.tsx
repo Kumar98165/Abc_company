@@ -1,28 +1,22 @@
 "use client";
 
-import { heroTrustItems } from "@/data/home";
-import { useEffect, useRef, useState } from "react";
-import Script from "next/script";
+import { useEffect, useState } from "react";
 
-// Floating card properties
 interface FloatingCardProps {
   label: string;
   top: string;
   left: string;
   delay: string;
-  depth: number;
 }
 
-function FloatingCard({ label, top, left, delay, depth }: FloatingCardProps) {
+function FloatingCard({ label, top, left, delay }: FloatingCardProps) {
   return (
     <div
-      className="hero-card absolute pointer-events-none rounded-xl border border-[#DDD4C7]/60 bg-white/85 px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-[#FF5F00] shadow-xl backdrop-blur-md animate-bounce"
+      className="hero-card absolute pointer-events-none rounded-xl border border-[#DDD4C7]/60 bg-white/85 px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-[#FF5F00] shadow-xl backdrop-blur-md animate-float"
       style={{
         top,
         left,
-        animationDuration: "5s",
         animationDelay: delay,
-        transform: `translate3d(0, 0, ${depth}px)`,
       }}
     >
       <span className="flex items-center gap-2">
@@ -33,242 +27,225 @@ function FloatingCard({ label, top, left, delay, depth }: FloatingCardProps) {
   );
 }
 
-function Hero3DVisual() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [threeLoaded, setThreeLoaded] = useState(false);
+interface HeroCarouselVisualProps {
+  slides: any[];
+  activeSlide: number;
+  setActiveSlide: (index: number) => void;
+}
 
-  useEffect(() => {
-    if (!threeLoaded || !canvasRef.current || !containerRef.current) return;
-
-    const THREE = (window as any).THREE;
-    if (!THREE) return;
-
-    let width = containerRef.current.clientWidth;
-    let height = containerRef.current.clientHeight || 500;
-
-    // Scene
-    const scene = new THREE.Scene();
-
-    // Camera
-    const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 100);
-    camera.position.z = 15;
-
-    // Renderer
-    const renderer = new THREE.WebGLRenderer({
-      canvas: canvasRef.current,
-      alpha: true,
-      antialias: true,
-    });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-    // Sphere Geometry (Network nodes)
-    const sphereGroup = new THREE.Group();
-    scene.add(sphereGroup);
-
-    // Particle nodes on sphere surface
-    const particleCount = 75;
-    const geometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const radius = 5.2;
-
-    for (let i = 0; i < particleCount; i++) {
-      const u = Math.random();
-      const v = Math.random();
-      const theta = u * 2.0 * Math.PI;
-      const phi = Math.acos(2.0 * v - 1.0);
-      const x = radius * Math.sin(phi) * Math.cos(theta);
-      const y = radius * Math.sin(phi) * Math.sin(theta);
-      const z = radius * Math.cos(phi);
-
-      positions[i * 3] = x;
-      positions[i * 3 + 1] = y;
-      positions[i * 3 + 2] = z;
-    }
-
-    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-
-    // Custom glowing point shader or simple high-end points material
-    const pointsMaterial = new THREE.PointsMaterial({
-      color: 0xf79e1b, // Mastercard Gold
-      size: 0.16,
-      transparent: true,
-      opacity: 0.85,
-    });
-
-    const pointCloud = new THREE.Points(geometry, pointsMaterial);
-    sphereGroup.add(pointCloud);
-
-    // Connecting lines between nodes
-    const lineMaterial = new THREE.LineBasicMaterial({
-      color: 0xff5f00, // Mastercard Orange
-      transparent: true,
-      opacity: 0.18,
-    });
-
-    const linePositions: number[] = [];
-    const nodeCount = particleCount;
-
-    for (let i = 0; i < nodeCount; i++) {
-      for (let j = i + 1; j < nodeCount; j++) {
-        const dx = positions[i * 3] - positions[j * 3];
-        const dy = positions[i * 3 + 1] - positions[j * 3 + 1];
-        const dz = positions[i * 3 + 2] - positions[j * 3 + 2];
-        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-
-        if (dist < 2.5) {
-          linePositions.push(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
-          linePositions.push(positions[j * 3], positions[j * 3 + 1], positions[j * 3 + 2]);
-        }
-      }
-    }
-
-    const lineGeometry = new THREE.BufferGeometry();
-    lineGeometry.setAttribute("position", new THREE.Float32BufferAttribute(linePositions, 3));
-    const lines = new THREE.LineSegments(lineGeometry, lineMaterial);
-    sphereGroup.add(lines);
-
-    // Outer rotating rings
-    const ringGroup = new THREE.Group();
-    scene.add(ringGroup);
-
-    const ringCount = 3;
-    const rings: any[] = [];
-    for (let i = 0; i < ringCount; i++) {
-      const ringGeom = new THREE.RingGeometry(5.8 + i * 0.4, 5.85 + i * 0.4, 64);
-      const ringMat = new THREE.MeshBasicMaterial({
-        color: i === 0 ? 0xff5f00 : 0xeb001b, // Mastercard Orange vs Red
-        side: THREE.DoubleSide,
-        transparent: true,
-        opacity: 0.3 - i * 0.1,
-      });
-      const mesh = new THREE.Mesh(ringGeom, ringMat);
-      mesh.rotation.x = Math.random() * Math.PI;
-      mesh.rotation.y = Math.random() * Math.PI;
-      ringGroup.add(mesh);
-      rings.push(mesh);
-    }
-
-    // Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
-    scene.add(ambientLight);
-
-    const pointLight = new THREE.PointLight(0xff5f00, 1.5, 100);
-    pointLight.position.set(5, 5, 5);
-    scene.add(pointLight);
-
-    // Mouse interactive coordinates
-    let targetX = 0;
-    let targetY = 0;
-    let mouseX = 0;
-    let mouseY = 0;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseX = (e.clientX - window.innerWidth / 2) * 0.001;
-      mouseY = (e.clientY - window.innerHeight / 2) * 0.001;
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-
-    // Resize
-    const handleResize = () => {
-      if (!containerRef.current) return;
-      width = containerRef.current.clientWidth;
-      height = containerRef.current.clientHeight || 500;
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-      renderer.setSize(width, height);
-    };
-    window.addEventListener("resize", handleResize);
-
-    // Visibility Observer to pause loop when not in view
-    let isVisible = true;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          isVisible = e.isIntersecting;
-        });
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(containerRef.current);
-
-    // Render loop
-    let reqId: number;
-    const animate = () => {
-      reqId = requestAnimationFrame(animate);
-
-      if (!isVisible) return;
-
-      // Slow idle sphere rotations
-      sphereGroup.rotation.y += 0.002;
-      sphereGroup.rotation.x += 0.0006;
-
-      // Rotating rings
-      rings.forEach((ring, index) => {
-        ring.rotation.z += 0.003 * (index === 0 ? 1 : -0.7);
-        ring.rotation.x += 0.001 * (index === 0 ? 1 : -0.5);
-      });
-
-      // Mouse tracking interpolation
-      targetX += (mouseX - targetX) * 0.06;
-      targetY += (mouseY - targetY) * 0.06;
-
-      scene.rotation.y = targetX * 1.5;
-      scene.rotation.x = targetY * 1.5;
-
-      renderer.render(scene, camera);
-    };
-
-    animate();
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("resize", handleResize);
-      observer.disconnect();
-      cancelAnimationFrame(reqId);
-    };
-  }, [threeLoaded]);
-
+function HeroCarouselVisual({ slides, activeSlide, setActiveSlide }: HeroCarouselVisualProps) {
   return (
-    <div
-      ref={containerRef}
-      className="relative mx-auto w-full max-w-[620px] aspect-[4/3] flex items-center justify-center border border-[#DDD4C7] bg-[#FAF6F0] rounded-[2rem] overflow-hidden shadow-[0_28px_80px_rgba(120,80,30,0.12)]"
-    >
-      {/* 3D background grid pattern */}
-      <div className="absolute inset-0 grid-backdrop opacity-10 pointer-events-none" />
+    <div className="relative w-full max-w-[620px] mx-auto">
+      {/* Floating Support Headset Button on right edge */}
+      <div className="absolute -right-5 top-1/2 -translate-y-1/2 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-[#FF5F00] text-white shadow-md shadow-[#FF5F00]/25 cursor-pointer hover:scale-105 transition-transform duration-200">
+        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 14a8 8 0 0 0-16 0" />
+          <path d="M21 14v1a3 3 0 0 1-6 0v-1a2 2 0 0 1 2-2h4a2 2 0 0 1 0 4" />
+          <path d="M3 14v1a3 3 0 0 0 6 0v-1a2 2 0 0 0-2-2H3a2 2 0 0 0 0 4" />
+        </svg>
+      </div>
 
-      {/* Script to load ThreeJS */}
-      <Script
-        src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
-        strategy="afterInteractive"
-        onLoad={() => setThreeLoaded(true)}
-      />
+      <div className="relative w-full aspect-[4/3] flex flex-col items-center justify-center border border-[#DDD4C7] bg-[#FAF6F0] rounded-[2rem] overflow-hidden shadow-[0_28px_80px_rgba(120,80,30,0.12)]">
+        {/* Grid background pattern */}
+        <div className="absolute inset-0 grid-backdrop opacity-10 pointer-events-none" />
 
-      {/* WebGL Canvas */}
-      <canvas ref={canvasRef} className="w-full h-full pointer-events-none" />
+        {/* Scroll Track for Visuals */}
+        <div
+          className="flex w-full h-full transition-transform duration-500 ease-out"
+          style={{ transform: `translate3d(-${activeSlide * 100}%, 0, 0)` }}
+        >
+          {slides.map((slide, index) => (
+            <div key={index} className="relative w-full h-full shrink-0 flex flex-col items-center justify-center p-6">
+              {slide.illustration}
 
-      {/* Floating tags with coordinates */}
-      <FloatingCard label="AI" top="15%" left="10%" delay="0s" depth={20} />
-      <FloatingCard label="Cloud" top="20%" left="75%" delay="1.2s" depth={35} />
-      <FloatingCard label="API" top="75%" left="15%" delay="2.4s" depth={15} />
-      <FloatingCard label="Security" top="70%" left="68%" delay="0.6s" depth={40} />
+              {/* Floating tags */}
+              <div
+                className="hero-card absolute pointer-events-none rounded-xl border border-[#DDD4C7]/60 bg-white/85 px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-[#FF5F00] shadow-xl backdrop-blur-md animate-float"
+                style={{
+                  top: slide.tag1.top,
+                  left: slide.tag1.left,
+                  animationDuration: "5s",
+                }}
+              >
+                <span className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#FF5F00] animate-pulse" />
+                  {slide.tag1.label}
+                </span>
+              </div>
+
+              <div
+                className="hero-card absolute pointer-events-none rounded-xl border border-[#DDD4C7]/60 bg-white/85 px-4 py-2.5 text-xs font-semibold uppercase tracking-widest text-[#FF5F00] shadow-xl backdrop-blur-md animate-float"
+                style={{
+                  top: slide.tag2.top,
+                  left: slide.tag2.left,
+                  animationDuration: "5.5s",
+                  animationDelay: "0.5s",
+                }}
+              >
+                <span className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#FF5F00] animate-pulse" />
+                  {slide.tag2.label}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Slide Navigation Indicator Dots */}
+        <div className="absolute bottom-6 flex justify-center gap-2.5">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveSlide(i)}
+              className={`h-2.5 w-2.5 rounded-full transition-all duration-300 ${
+                i === activeSlide ? "bg-[#FF5F00] w-6" : "bg-[#DDD4C7]"
+              }`}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
 
 export function Hero() {
   const [scrollY, setScrollY] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  const slides = [
+    {
+      heading: (
+        <>
+          Build <span className="bg-gradient-to-r from-[#EB001B] via-[#FF5F00] to-[#F79E1B] bg-clip-text text-transparent">Digital Products</span>
+          <br />
+          That <span className="text-[#FF5F00]">Move Your Business Forward</span>
+        </>
+      ),
+      paragraph: "We design and engineer scalable software, AI-powered products and digital experiences that solve real business challenges.",
+      illustration: (
+        <img
+          src="/images/hero-ai-brain.png"
+          alt="AI Solutions"
+          className="h-64 sm:h-72 lg:h-80 w-auto object-contain drop-shadow-2xl"
+        />
+      ),
+      tag1: { label: "AI Solutions", top: "15%", left: "8%" },
+      tag2: { label: "API Integration", top: "72%", left: "64%" },
+    },
+    {
+      heading: (
+        <>
+          Architect <span className="bg-gradient-to-r from-[#EB001B] via-[#FF5F00] to-[#F79E1B] bg-clip-text text-transparent">Cloud Solutions</span>
+          <br />
+          That <span className="text-[#FF5F00]">Scale Infinitely</span>
+        </>
+      ),
+      paragraph: "Transition your architecture to highly available, serverless, and optimized cloud infrastructures built on modern standard pipelines.",
+      illustration: (
+        <img
+          src="/images/hero-cloud-infrastructure.png"
+          alt="Cloud Infrastructure"
+          className="h-64 sm:h-72 lg:h-80 w-auto object-contain drop-shadow-2xl"
+        />
+      ),
+      tag1: { label: "Cloud Solutions", top: "15%", left: "64%" },
+      tag2: { label: "Security First", top: "72%", left: "8%" },
+    },
+    {
+      heading: (
+        <>
+          Connect Systems <span className="bg-gradient-to-r from-[#EB001B] via-[#FF5F00] to-[#F79E1B] bg-clip-text text-transparent">With Seamless</span>
+          <br />
+          API <span className="text-[#FF5F00]">Integration & Workflows</span>
+        </>
+      ),
+      paragraph: "Unify your business operations, data flows, and legacy software with robust, fast, and secure API gateways and middlewares.",
+      illustration: (
+        <img
+          src="/images/hero-system-integration.jpg"
+          alt="API Integration"
+          className="h-64 sm:h-72 lg:h-80 w-auto object-contain drop-shadow-2xl"
+        />
+      ),
+      tag1: { label: "API Integration", top: "15%", left: "8%" },
+      tag2: { label: "AI Solutions", top: "72%", left: "64%" },
+    },
+    {
+      heading: (
+        <>
+          Protect Assets <span className="bg-gradient-to-r from-[#EB001B] via-[#FF5F00] to-[#F79E1B] bg-clip-text text-transparent">With Enterprise</span>
+          <br />
+          Grade <span className="text-[#FF5F00]">Security Standards</span>
+        </>
+      ),
+      paragraph: "Incorporate state-of-the-art security, encryption standards, and compliance structures into every layer of your systems by design.",
+      illustration: (
+        <img
+          src="/images/hero-cyber-security.png"
+          alt="Cyber Security"
+          className="h-64 sm:h-72 lg:h-80 w-auto object-contain drop-shadow-2xl"
+        />
+      ),
+      tag1: { label: "Security First", top: "15%", left: "64%" },
+      tag2: { label: "Cloud Solutions", top: "72%", left: "8%" },
+    },
+    {
+      heading: (
+        <>
+          Transform Raw <span className="bg-gradient-to-r from-[#EB001B] via-[#FF5F00] to-[#F79E1B] bg-clip-text text-transparent">Data Into</span>
+          <br />
+          Actionable <span className="text-[#FF5F00]">Business Insights</span>
+        </>
+      ),
+      paragraph: "Unleash data analytics and interactive reporting pipelines to make smart, data-driven decisions that propel growth.",
+      illustration: (
+        <img
+          src="/images/hero-data-analytics.jpg"
+          alt="Data Analytics"
+          className="h-64 sm:h-72 lg:h-80 w-auto object-contain drop-shadow-2xl"
+        />
+      ),
+      tag1: { label: "Data Analytics", top: "15%", left: "8%" },
+      tag2: { label: "API Integration", top: "72%", left: "64%" },
+    },
+    {
+      heading: (
+        <>
+          Automate Workflows <span className="bg-gradient-to-r from-[#EB001B] via-[#FF5F00] to-[#F79E1B] bg-clip-text text-transparent">With Intelligent</span>
+          <br />
+          Operations <span className="text-[#FF5F00]">& Autonomous Agents</span>
+        </>
+      ),
+      paragraph: "Deploy autonomous multi-agent networks and automated operations that eliminate manual overhead and streamline delivery.",
+      illustration: (
+        <img
+          src="/images/hero-isometric-cube.png"
+          alt="Automation"
+          className="h-64 sm:h-72 lg:h-80 w-auto object-contain drop-shadow-2xl"
+        />
+      ),
+      tag1: { label: "Automation", top: "15%", left: "64%" },
+      tag2: { label: "AI Solutions", top: "72%", left: "8%" },
+    },
+  ];
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
+    const timer = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % slides.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [slides.length]);
+
+  const handleScroll = () => {
+    setScrollY(window.scrollY);
+  };
+
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Parallax calculations
   const textTranslateY = scrollY * 0.12;
   const visualScale = Math.max(0.85, 1 - scrollY * 0.0006);
 
@@ -278,65 +255,108 @@ export function Hero() {
       {/* Warm tint gradient glow */}
       <div className="absolute left-[62%] top-28 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,_rgba(255,95,0,0.10),_transparent_72%)] blur-2xl" />
 
-      <div className="section-shell section-space relative pt-36 md:pt-44 lg:pt-40">
-        <div className="grid min-h-[calc(88vh-5rem)] items-center gap-16 xl:grid-cols-[minmax(0,0.96fr)_minmax(460px,1.04fr)] xl:gap-14">
+      <div className="section-shell section-space relative pt-24 md:pt-28 lg:pt-24 pb-12">
+        <div className="grid min-h-[70vh] items-center gap-10 xl:grid-cols-[minmax(0,0.96fr)_minmax(460px,1.04fr)] xl:gap-12">
           
           {/* Hero text content with scroll-parallax shifts */}
           <div
-            className="max-w-2xl transition-transform duration-100 ease-out"
+            className="max-w-2xl w-full overflow-hidden transition-transform duration-100 ease-out"
             style={{ transform: `translate3d(0, -${textTranslateY}px, 0)` }}
           >
-            <span className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-[#FF5F00]">
-              <span className="h-2 w-2 rounded-full bg-[#FF5F00]" />
-              SOFTWARE ENGINEERING & AI
-            </span>
+            {/* Scroll Track for Text Column */}
+            <div
+              className="flex w-full transition-transform duration-500 ease-out"
+              style={{ transform: `translate3d(-${activeSlide * 100}%, 0, 0)` }}
+            >
+              {slides.map((slide, index) => (
+                <div key={index} className="w-full shrink-0">
+                  <h1 className="text-balance text-2xl font-bold leading-[1.12] tracking-tight text-[#1A1A1A] sm:text-3xl md:text-4xl lg:text-[2.75rem]">
+                    {slide.heading}
+                  </h1>
 
-            {/* Word-by-word fade text loader */}
-            <h1 className="mt-8 text-balance text-5xl font-semibold leading-[0.96] tracking-[-0.06em] text-[#1A1A1A] sm:text-[4.25rem] lg:text-[4.7rem] animate-fade-in">
-              Build <span className="bg-gradient-to-r from-[#EB001B] via-[#FF5F00] to-[#F79E1B] bg-clip-text text-transparent">Digital Products</span>
-              <br />
-              That <span className="text-[#FF5F00]">Move Your Business Forward</span>
-            </h1>
+                  <p className="mt-4 max-w-xl text-base leading-7 text-[#5A5A5A] sm:text-lg">
+                    {slide.paragraph}
+                  </p>
+                </div>
+              ))}
+            </div>
 
-            <p className="mt-7 max-w-xl text-lg leading-8 text-[#5A5A5A] sm:text-xl">
-              We design and engineer scalable software, AI-powered products and digital experiences that solve real business challenges.
-            </p>
-
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
-              <a
-                href="#final-cta"
-                className="group inline-flex items-center justify-center gap-2 rounded-full bg-[#FF5F00] px-6 py-4 text-base font-semibold text-white transition-all duration-200 hover:bg-[#e65400] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5F00] focus-visible:ring-offset-2 hover:scale-[1.03]"
-              >
-                Start a Project
-                <span className="transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
-              </a>
+            {/* Explore Solutions & Contact Us Buttons */}
+            <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
               <a
                 href="#case-studies"
-                className="group inline-flex items-center justify-center gap-2 rounded-full border border-[#DDD4C7] bg-white px-6 py-4 text-base font-semibold text-[#1A1A1A] transition-all duration-200 hover:border-[#FF5F00] hover:text-[#FF5F00] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5F00] focus-visible:ring-offset-2 hover:scale-[1.03]"
+                className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-[#FF5F00] px-7 py-4 text-base font-semibold text-white transition-all duration-200 hover:bg-[#e65400] hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5F00]"
               >
-                Explore Our Work
-                <span className="transition-transform duration-200 group-hover:translate-x-1">&rarr;</span>
+                <svg viewBox="0 0 24 24" className="h-4.5 w-4.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="7" y1="17" x2="17" y2="7" />
+                  <polyline points="7 7 17 7 17 17" />
+                </svg>
+                Explore Solutions
+              </a>
+              <a
+                href="/contact"
+                className="group inline-flex items-center justify-center gap-2.5 rounded-full border border-[#DDD4C7] bg-white px-7 py-4 text-base font-semibold text-[#1A1A1A] transition-all duration-200 hover:border-[#FF5F00] hover:text-[#FF5F00] hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5F00]"
+              >
+                <svg viewBox="0 0 24 24" className="h-4.5 w-4.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.5 19.5 0 0 1-6-6v2" />
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+                Contact Us
               </a>
             </div>
 
-            <ul className="mt-10 flex flex-col gap-3 text-sm font-medium text-[#5A5A5A] sm:flex-row sm:flex-wrap sm:gap-6">
-              {heroTrustItems.map((item) => (
-                <li key={item} className="inline-flex items-center gap-3">
-                  <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-[#DDD4C7] bg-white">
-                    <span className="h-2 w-2 rounded-full bg-[#FF5F00]" />
-                  </span>
-                  {item}
-                </li>
-              ))}
-            </ul>
+            {/* Bottom Row Categories/Divisions */}
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-y-4 border-t border-[#DDD4C7] pt-6">
+              <div className="flex items-center gap-3">
+                <svg viewBox="0 0 24 24" className="h-5 w-5 text-[#FF5F00] shrink-0" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="5" y="8" width="14" height="10" rx="3" />
+                  <path d="M12 4v4" />
+                  <circle cx="9" cy="13" r="1" />
+                  <circle cx="15" cy="13" r="1" />
+                  <path d="M9 17h6" />
+                </svg>
+                <span className="text-sm font-semibold tracking-wide text-[#1A1A1A]">AI Solutions</span>
+              </div>
+              
+              <span className="hidden md:block h-6 w-px bg-[#DDD4C7]" />
+              
+              <div className="flex items-center gap-3">
+                <svg viewBox="0 0 24 24" className="h-5 w-5 text-[#FF5F00] shrink-0" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 4 4 8l8 4 8-4-8-4Z" />
+                  <path d="m4 12 8 4 8-4" />
+                  <path d="m4 16 8 4 8-4" />
+                </svg>
+                <span className="text-sm font-semibold tracking-wide text-[#1A1A1A]">Cloud Infrastructure</span>
+              </div>
+              
+              <span className="hidden md:block h-6 w-px bg-[#DDD4C7]" />
+              
+              <div className="flex items-center gap-3">
+                <svg viewBox="0 0 24 24" className="h-5 w-5 text-[#FF5F00] shrink-0" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="16 18 22 12 16 6" />
+                  <polyline points="8 6 2 12 8 18" />
+                </svg>
+                <span className="text-sm font-semibold tracking-wide text-[#1A1A1A]">Custom Software</span>
+              </div>
+              
+              <span className="hidden md:block h-6 w-px bg-[#DDD4C7]" />
+              
+              <div className="flex items-center gap-3">
+                <svg viewBox="0 0 24 24" className="h-5 w-5 text-[#FF5F00] shrink-0" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                </svg>
+                <span className="text-sm font-semibold tracking-wide text-[#1A1A1A]">Data Analytics</span>
+              </div>
+            </div>
+
           </div>
 
-          {/* 3D Visual container with scroll shrink */}
+          {/* 3D Visual Carousel container with scroll shrink */}
           <div
             className="transition-transform duration-100 ease-out"
             style={{ transform: `scale(${visualScale})` }}
           >
-            <Hero3DVisual />
+            <HeroCarouselVisual slides={slides} activeSlide={activeSlide} setActiveSlide={setActiveSlide} />
           </div>
 
         </div>
