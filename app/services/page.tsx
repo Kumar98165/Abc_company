@@ -3,6 +3,8 @@ import { Navbar } from "@/components/home/Navbar";
 import { Footer } from "@/components/home/Footer";
 import { CTA } from "@/components/home/CTA";
 import { ServicesContainer } from "@/components/services/ServicesContainer";
+import { ProductsShowcase } from "@/components/services/ProductsShowcase";
+import { TrustLogos } from "@/components/home/TrustLogos";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -273,6 +275,9 @@ export default function ServicesPage() {
           </div>
         </section>
 
+        {/* Company Partnership Trust Logos */}
+        <TrustLogos />
+
         {/* Services Overview Section */}
         <section className="section-shell py-16 lg:py-24">
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -466,6 +471,9 @@ export default function ServicesPage() {
             </div>
           </div>
         </section>
+
+        {/* Products & Platforms Showcase */}
+        <ProductsShowcase />
 
         {/* CTA Component */}
         <CTA />
