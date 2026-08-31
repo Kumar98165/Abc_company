@@ -1,16 +1,8 @@
 import { About } from "@/components/home/About";
-import { AITechnology } from "@/components/home/AITechnology";
-import { CaseStudies } from "@/components/home/CaseStudies";
-import { CTA } from "@/components/home/CTA";
-import { FAQ } from "@/components/home/FAQ";
 import { Footer } from "@/components/home/Footer";
 import { Hero } from "@/components/home/Hero";
-import { Industries } from "@/components/home/Industries";
 import { Navbar } from "@/components/home/Navbar";
 import { Process } from "@/components/home/Process";
-import { Services } from "@/components/home/Services";
-import { TechnologyStack } from "@/components/home/TechnologyStack";
-import { Testimonials } from "@/components/home/Testimonials";
 import { TrustLogos } from "@/components/home/TrustLogos";
 
 export default function Home() {
@@ -64,14 +56,6 @@ export default function Home() {
         <TrustLogos />
         <About />
         <Process />
-        <Services />
-        <AITechnology />
-        <Industries />
-        <CaseStudies />
-        <TechnologyStack />
-        <Testimonials />
-        <FAQ />
-        <CTA />
       </main>
       <Footer />
     </>
