@@ -23,7 +23,7 @@ export function WhyJoinUs() {
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
         </svg>
       ),
-      isOffset: true,
+      isOffset: true, // SHIFTED DOWN
     },
     {
       num: "03",
@@ -56,7 +56,7 @@ export function WhyJoinUs() {
           <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
         </svg>
       ),
-      isOffset: true,
+      isOffset: true, // SHIFTED DOWN
     },
     {
       num: "06",
@@ -72,32 +72,32 @@ export function WhyJoinUs() {
   ];
 
   return (
-    <section id="why-join-us" className="bg-[#FFFBF7] py-16 lg:py-24 border-b border-[#EAE3D9]">
+    <section id="why-join-us" className="bg-[#FFFBF7] pt-10 sm:pt-12 pb-16 sm:pb-20 border-b border-[#EAE3D9]">
       <div className="section-shell max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#FF5F00]/30 bg-[#FF5F00]/8 px-4 py-1 text-xs font-extrabold uppercase tracking-[0.18em] text-[#FF5F00]">
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-[#FF5F00]/30 bg-[#FF5F00]/8 px-4 py-0.5 text-xs font-extrabold uppercase tracking-[0.18em] text-[#FF5F00]">
             WHY JOIN US
           </span>
-          <h2 className="mt-3 text-3xl font-extrabold text-[#0F172A] sm:text-4xl tracking-tight">
+          <h2 className="mt-2 text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight">
             Build Your Career. Shape What's Next.
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-[#64748B] leading-relaxed">
+          <p className="mt-2 text-xs sm:text-sm text-[#64748B] leading-relaxed">
             Work on challenging technology, collaborate with exceptional people, and turn ambitious ideas into products that create real business impact.
           </p>
         </div>
 
-        {/* 6 CARDS MATCHING EXACT USER REFERENCE LAYOUT */}
+        {/* 6 CARDS WITH STAGGERED UP/DOWN OFFSET (MATCHING FIRST REFERENCE SCREENSHOT) */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 items-start pb-8">
           {cards.map((card) => (
             <div
               key={card.num}
-              className={`group rounded-[32px] border border-[#EAE3D9] bg-white p-7 sm:p-8 shadow-[0_10px_35px_rgba(0,0,0,0.04)] transition-all duration-300 hover:border-[#FF5F00] hover:shadow-xl hover:-translate-y-1 relative overflow-hidden flex flex-col justify-between min-h-[220px] ${
-                card.isOffset ? "lg:translate-y-6" : ""
+              className={`group rounded-[32px] border border-[#EAE3D9] bg-white p-6 sm:p-7 shadow-[0_10px_35px_rgba(0,0,0,0.04)] transition-all duration-300 hover:border-[#FF5F00] hover:shadow-xl hover:-translate-y-1 relative overflow-hidden flex flex-col justify-between min-h-[210px] ${
+                card.isOffset ? "lg:translate-y-8" : ""
               }`}
             >
               {/* TOP ROW: ICON BADGE ON LEFT + FAINT GIANT NUMBER WATERMARK ON RIGHT */}
               <div className="flex items-start justify-between relative">
-                <div className="flex h-13 w-13 items-center justify-center rounded-2xl bg-[#FFF4EC] text-[#FF5F00] border border-[#FFE2CC] group-hover:bg-[#FF5F00] group-hover:text-white transition-colors duration-300 shadow-2xs">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FFF4EC] text-[#FF5F00] border border-[#FFE2CC] group-hover:bg-[#FF5F00] group-hover:text-white transition-colors duration-300 shadow-2xs">
                   {card.icon}
                 </div>
 
@@ -108,11 +108,11 @@ export function WhyJoinUs() {
               </div>
 
               {/* TITLE & DESCRIPTION BELOW */}
-              <div className="mt-6">
-                <h3 className="text-lg sm:text-xl font-extrabold text-[#0F172A] group-hover:text-[#FF5F00] transition-colors mb-2">
+              <div className="mt-5">
+                <h3 className="text-base sm:text-lg font-extrabold text-[#0F172A] group-hover:text-[#FF5F00] transition-colors mb-1.5">
                   {card.title}
                 </h3>
-                <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">
+                <p className="text-xs text-[#64748B] leading-relaxed">
                   {card.desc}
                 </p>
               </div>

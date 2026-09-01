@@ -1,23 +1,25 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { extendedJobsData, JobDetailItem } from "./data/jobsData";
 import { CareersHero } from "./sections/CareersHero";
 import { WhyJoinUs } from "./sections/WhyJoinUs";
 import { LifeAtCompany } from "./sections/LifeAtCompany";
-import { EngineeringCulture } from "./sections/EngineeringCulture";
 import { JobSearchEngine } from "./sections/JobSearchEngine";
 import { JobCardItem } from "./sections/JobCardItem";
 import { JobDetailsModal } from "./sections/JobDetailsModal";
 import { HiringProcessTimeline } from "./sections/HiringProcessTimeline";
-import { BenefitsAndPerks } from "./sections/BenefitsAndPerks";
-import { LearningAndGrowth } from "./sections/LearningAndGrowth";
 import { DiversitySection } from "./sections/DiversitySection";
 import { TalentNetworkModal } from "./sections/TalentNetworkModal";
 import { ApplicationWizard } from "./ApplicationWizard";
 import { JobMetadata } from "./types";
 
+const JOBS_PER_PAGE = 10;
+
 export function CareersContainer() {
+  const searchParams = useSearchParams();
+
   // ATS Application Flow State
   const [selectedJobForApp, setSelectedJobForApp] = useState<JobMetadata | null>(null);
   const [isApplying, setIsApplying] = useState(false);
@@ -35,6 +37,34 @@ export function CareersContainer() {
   const [experienceFilter, setExperienceFilter] = useState("All");
   const [workModeFilter, setWorkModeFilter] = useState("All");
   const [employmentTypeFilter, setEmploymentTypeFilter] = useState("All");
+
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Support URL param trigger e.g. /careers?apply=fullstack-dev
+  useEffect(() => {
+    const applyId = searchParams.get("apply");
+    if (applyId) {
+      const targetJob = extendedJobsData.find((j) => j.id === applyId);
+      if (targetJob) {
+        setSelectedJobForApp({
+          jobId: targetJob.id,
+          title: targetJob.title,
+          department: targetJob.department,
+          location: targetJob.location,
+          employmentType: targetJob.type,
+          experience: targetJob.experience,
+        });
+        setIsApplying(true);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
+  }, [searchParams]);
+
+  // Reset page to 1 whenever filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, departmentFilter, locationFilter, experienceFilter, workModeFilter, employmentTypeFilter]);
 
   // Client-Side Combined Filtering Logic
   const filteredJobs = useMemo(() => {
@@ -80,6 +110,13 @@ export function CareersContainer() {
     });
   }, [searchQuery, departmentFilter, locationFilter, experienceFilter, workModeFilter, employmentTypeFilter]);
 
+  // Paginated Jobs Slicing
+  const totalPages = Math.ceil(filteredJobs.length / JOBS_PER_PAGE);
+  const paginatedJobs = useMemo(() => {
+    const start = (currentPage - 1) * JOBS_PER_PAGE;
+    return filteredJobs.slice(start, start + JOBS_PER_PAGE);
+  }, [filteredJobs, currentPage]);
+
   const handleClearFilters = () => {
     setSearchQuery("");
     setDepartmentFilter("All");
@@ -87,6 +124,7 @@ export function CareersContainer() {
     setExperienceFilter("All");
     setWorkModeFilter("All");
     setEmploymentTypeFilter("All");
+    setCurrentPage(1);
   };
 
   const scrollToPositions = () => {
@@ -146,20 +184,17 @@ export function CareersContainer() {
       {/* 3. LIFE AT OUR COMPANY */}
       <LifeAtCompany />
 
-      {/* 4. OUR ENGINEERING CULTURE (4 INTERACTIVE CARDS) */}
-      <EngineeringCulture />
-
-      {/* 5. OPEN POSITIONS & SEARCH ENGINE SECTION */}
-      <section id="open-positions" className="bg-[#FFFBF7] py-16 lg:py-24 border-b border-[#EAE3D9]">
+      {/* 4. OPEN POSITIONS & SEARCH ENGINE SECTION */}
+      <section id="open-positions" className="bg-[#FFFBF7] pt-10 sm:pt-12 pb-14 sm:pb-16 border-b border-[#EAE3D9]">
         <div className="section-shell max-w-7xl mx-auto px-4 sm:px-6 space-y-8">
           <div className="text-center max-w-3xl mx-auto">
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#FF5F00]/30 bg-[#FF5F00]/8 px-3.5 py-1 text-xs font-extrabold uppercase tracking-[0.18em] text-[#FF5F00]">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#FF5F00]/30 bg-[#FF5F00]/8 px-3.5 py-0.5 text-xs font-extrabold uppercase tracking-[0.18em] text-[#FF5F00]">
               OPEN POSITIONS
             </span>
-            <h2 className="mt-3 text-3xl font-extrabold text-[#0F172A] sm:text-4xl tracking-tight">
+            <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0F172A] tracking-tight">
               Explore Opportunities & Impact
             </h2>
-            <p className="mt-3 text-base text-[#64748B] leading-relaxed">
+            <p className="mt-2 text-xs sm:text-sm text-[#64748B] leading-relaxed">
               Find a role where your skills, curiosity, and ambition can make a lasting impact on enterprise software solutions.
             </p>
           </div>
@@ -182,17 +217,74 @@ export function CareersContainer() {
             onClearFilters={handleClearFilters}
           />
 
-          {/* JOB CARDS GRID */}
+          {/* JOB CARDS GRID (4 CARDS PER ROW ON DESKTOP) */}
           {filteredJobs.length > 0 ? (
-            <div className="grid gap-6 md:grid-cols-2">
-              {filteredJobs.map((job) => (
-                <JobCardItem
-                  key={job.id}
-                  job={job}
-                  onViewJob={(j) => setActiveJobModal(j)}
-                  onApplyNow={(j) => handleApplyClick(j)}
-                />
-              ))}
+            <div className="space-y-8">
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {paginatedJobs.map((job) => (
+                  <JobCardItem
+                    key={job.id}
+                    job={job}
+                    onViewJob={(j) => setActiveJobModal(j)}
+                    onApplyNow={(j) => handleApplyClick(j)}
+                  />
+                ))}
+              </div>
+
+              {/* PAGINATION CONTROL BAR */}
+              {totalPages > 1 && (
+                <div className="rounded-2xl border border-[#EAE3D9] bg-white p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xs">
+                  <span className="text-xs text-[#64748B] font-bold">
+                    Showing <span className="text-[#0F172A]">{(currentPage - 1) * JOBS_PER_PAGE + 1}</span>–<span className="text-[#0F172A]">{Math.min(currentPage * JOBS_PER_PAGE, filteredJobs.length)}</span> of <span className="text-[#FF5F00] font-mono text-sm">{filteredJobs.length}</span> positions
+                  </span>
+
+                  <div className="flex items-center gap-2">
+                    {/* Previous Page Button */}
+                    <button
+                      type="button"
+                      disabled={currentPage === 1}
+                      onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                      className={`rounded-xl border px-3.5 py-1.5 text-xs font-extrabold transition-colors cursor-pointer ${
+                        currentPage === 1
+                          ? "border-[#E2E8F0] bg-[#FAF8F5] text-[#94A3B8] cursor-not-allowed"
+                          : "border-[#EAE3D9] bg-white text-[#0F172A] hover:border-[#FF5F00] hover:text-[#FF5F00]"
+                      }`}
+                    >
+                      ← Previous
+                    </button>
+
+                    {/* Page Numbers */}
+                    {Array.from({ length: totalPages }, (_, idx) => idx + 1).map((pageNum) => (
+                      <button
+                        key={pageNum}
+                        type="button"
+                        onClick={() => setCurrentPage(pageNum)}
+                        className={`h-8 w-8 rounded-xl text-xs font-extrabold transition-all cursor-pointer ${
+                          pageNum === currentPage
+                            ? "bg-[#FF5F00] text-white shadow-xs"
+                            : "border border-[#EAE3D9] bg-white text-[#0F172A] hover:border-[#FF5F00] hover:text-[#FF5F00]"
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    ))}
+
+                    {/* Next Page Button */}
+                    <button
+                      type="button"
+                      disabled={currentPage === totalPages}
+                      onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                      className={`rounded-xl border px-3.5 py-1.5 text-xs font-extrabold transition-colors cursor-pointer ${
+                        currentPage === totalPages
+                          ? "border-[#E2E8F0] bg-[#FAF8F5] text-[#94A3B8] cursor-not-allowed"
+                          : "border-[#EAE3D9] bg-white text-[#0F172A] hover:border-[#FF5F00] hover:text-[#FF5F00]"
+                      }`}
+                    >
+                      Next →
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             /* NO POSITIONS FOUND EMPTY STATE */
@@ -234,7 +326,7 @@ export function CareersContainer() {
               <button
                 type="button"
                 onClick={() => setIsTalentNetworkOpen(true)}
-                className="rounded-full border-2 border-[#FF5F00] bg-white px-6 py-3 text-xs font-extrabold uppercase tracking-wider text-[#FF5F00] hover:bg-[#FF5F00] hover:text-white transition-all cursor-pointer"
+                className="rounded-full border-2 border-[#FF5F00] bg-[#FFFFFF] px-6 py-3 text-xs font-extrabold uppercase tracking-wider text-[#FF5F00] hover:bg-[#FF5F00] hover:text-white transition-all cursor-pointer"
               >
                 JOIN TALENT NETWORK →
               </button>
@@ -243,16 +335,10 @@ export function CareersContainer() {
         </div>
       </section>
 
-      {/* 6. HOW WE HIRE (6-STEP TIMELINE) */}
+      {/* 5. HOW WE HIRE (6-STEP TIMELINE) */}
       <HiringProcessTimeline />
 
-      {/* 7. BENEFITS & PERKS */}
-      <BenefitsAndPerks />
-
-      {/* 8. LEARNING & GROWTH CAREER JOURNEY */}
-      <LearningAndGrowth />
-
-      {/* 9. DIVERSITY & INCLUSION */}
+      {/* 6. DIVERSITY & INCLUSION */}
       <DiversitySection />
 
       {/* MODAL 1: JOB DETAILS SPECIFICATION MODAL */}
