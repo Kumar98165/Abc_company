@@ -1,7 +1,18 @@
 "use client";
 
-import { useState } from "react";
-import { Job } from "@/app/careers/page";
+import React, { useState } from "react";
+
+export interface Job {
+  id: string;
+  title: string;
+  department: string;
+  location: string;
+  experience: string;
+  badgeBg: string;
+  badgeIcon: React.ReactNode;
+  skills: string[];
+  fullRequirements?: string[];
+}
 
 interface CareersListProps {
   jobsData: Job[];
@@ -77,7 +88,7 @@ export function CareersList({ jobsData, setApplicationPosition }: CareersListPro
                 </h4>
                 {job.fullRequirements ? (
                   <ul className="space-y-1.5">
-                    {job.fullRequirements.map((req, idx) => (
+                    {job.fullRequirements.map((req: string, idx: number) => (
                       <li key={idx} className="flex items-start gap-1.5 text-[10.5px] text-[#475569] leading-snug">
                         <span className="text-[#FF5F00] font-bold">•</span>
                         <span>{req}</span>

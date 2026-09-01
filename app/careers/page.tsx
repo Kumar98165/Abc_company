@@ -1,3 +1,4 @@
+import React, { Suspense } from "react";
 import { Navbar } from "@/components/home/Navbar";
 import { Footer } from "@/components/home/Footer";
 import { CareersContainer } from "@/components/careers/CareersContainer";
@@ -45,7 +46,9 @@ export default function CareersPage() {
 
       <Navbar />
       <main className="min-h-screen bg-[#FFFBF7] pt-20">
-        <CareersContainer />
+        <Suspense fallback={<div className="min-h-screen bg-[#FFFBF7]" />}>
+          <CareersContainer />
+        </Suspense>
       </main>
       <Footer />
     </>
