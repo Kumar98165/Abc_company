@@ -7,6 +7,7 @@ import { ServicesContainer } from "@/components/services/ServicesContainer";
 import { servicesData } from "@/data/services";
 import { ProductsShowcase } from "@/components/services/ProductsShowcase";
 import { TrustLogos } from "@/components/home/TrustLogos";
+import TechStackShowcase from "@/components/services/TechStackShowcase";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -68,7 +69,7 @@ export default function ServicesPage() {
             <div className="grid gap-12 lg:grid-cols-12 items-center">
               
               {/* Left Column: Headline & Action */}
-              <div className="lg:col-span-7 space-y-6">
+              <div className="lg:col-span-6 space-y-6">
                 <span className="inline-flex items-center gap-2 rounded-full border border-[#FF5F00]/30 bg-[#FF5F00]/10 px-4 py-1.5 text-xs font-extrabold uppercase tracking-wider text-[#FF5F00]">
                   <span className="h-2 w-2 rounded-full bg-[#FF5F00] animate-pulse" />
                   OUR SERVICES
@@ -115,44 +116,18 @@ export default function ServicesPage() {
                 </div>
               </div>
 
-              {/* Right Column: Visual Visual Graphic Card Showcase */}
-              <div className="lg:col-span-5 relative">
-                <div className="relative mx-auto w-full max-w-[460px] rounded-3xl border border-[#EDE5D8] bg-[#FAF8F5] p-4 shadow-[0_20px_50px_rgba(0,0,0,0.06)]">
-                  {/* Image Container */}
-                  <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-[#E8E0D8] bg-white">
+              {/* Right Column: Visual Showcase */}
+              <div className="lg:col-span-6 relative">
+                <div className="relative mx-auto w-full max-w-[650px] lg:max-w-none">
+                  <div className="relative aspect-[1.18/1] w-full overflow-hidden rounded-3xl">
                     <Image
                       src="/images/hero-isometric-cube.png"
                       alt="Enterprise Technology Services"
                       fill
-                      className="object-cover object-center transition-transform duration-700 hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 650px"
+                      className="object-contain object-center transition-transform duration-700 hover:scale-[1.03]"
                       priority
                     />
-                  </div>
-
-                  {/* Floating Pill Badge 1 - Top Left */}
-                  <div className="absolute -top-4 -left-4 rounded-xl border border-[#FFE5CC] bg-white p-3 shadow-lg flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#FFF4EC] text-[#FF5F00]">
-                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="text-xs font-extrabold text-[#1A1A1A]">AI & Multi-Agent</div>
-                      <div className="text-[10px] text-[#8C827A]">Enterprise Workflows</div>
-                    </div>
-                  </div>
-
-                  {/* Floating Pill Badge 2 - Bottom Right */}
-                  <div className="absolute -bottom-4 -right-4 rounded-xl border border-[#FFE5CC] bg-white p-3 shadow-lg flex items-center gap-3">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#FFF4EC] text-[#FF5F00]">
-                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                      </svg>
-                    </div>
-                    <div>
-                      <div className="text-xs font-extrabold text-[#1A1A1A]">Full-Stack & Cloud</div>
-                      <div className="text-[10px] text-[#8C827A]">Scalable Architecture</div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -170,40 +145,7 @@ export default function ServicesPage() {
         </div>
 
         {/* Technology Stack Section */}
-        <section className="section-shell py-16 lg:py-24">
-          <div className="text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#FF5F00]/30 bg-[#FF5F00]/8 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.2em] text-[#FF5F00]">
-              Tech Stack
-            </span>
-            <h2 className="mt-5 text-3xl font-extrabold tracking-tight text-[#1A1A1A] sm:text-4xl">Our Technical Stack</h2>
-            <p className="mx-auto mt-4 max-w-2xl text-base text-[#6B6B6B]">
-              We leverage modern language patterns, framework ecosystems, and infrastructure orchestration.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              { label: "Frontend", techs: ["React.js", "Next.js", "TypeScript", "Tailwind CSS", "Vue.js", "Redux Toolkit", "HTML5/CSS3"] },
-              { label: "Backend & APIs", techs: ["Node.js", "NestJS", "Go (Golang)", "Python", "Java", ".NET Core", "GraphQL", "gRPC"] },
-              { label: "AI & Big Data", techs: ["TensorFlow", "PyTorch", "LangChain", "OpenAI APIs", "CrewAI", "Pinecone DB", "Pandas", "Scikit-Learn"] },
-              { label: "Cloud & DevOps", techs: ["AWS", "Google Cloud", "Kubernetes", "Docker", "Terraform", "GitHub Actions", "ArgoCD", "Prometheus"] },
-              { label: "Databases", techs: ["PostgreSQL", "MongoDB", "Redis", "MySQL", "AWS DynamoDB", "Supabase", "Elasticsearch"] },
-              { label: "Platforms", techs: ["Stripe Billing", "Auth0 & JWT", "Vercel", "Heroku", "Zapier", "n8n Integration"] },
-            ].map(({ label, techs }) => (
-              <div key={label} className="group rounded-2xl border border-[#E8E0D8] bg-white p-6 shadow-sm hover:shadow-lg hover:border-[#FF5F00]/20 transition-all duration-300">
-                <div className="flex items-center gap-3 pb-4 border-b border-[#F0EAE2]">
-                  <span className="h-2 w-2 rounded-full bg-[#FF5F00]" />
-                  <h3 className="text-sm font-extrabold text-[#1A1A1A] uppercase tracking-wider">{label}</h3>
-                </div>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {techs.map((t) => (
-                    <span key={t} className="rounded-md bg-[#FAF6F0] px-2.5 py-1 text-xs font-semibold text-[#5A5048] border border-[#EDE5D8] hover:border-[#FF5F00]/40 hover:text-[#FF5F00] transition-colors cursor-default">{t}</span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+        <TechStackShowcase />
 
         {/* Development Approach Section */}
         <section className="bg-[#0F0F0F] text-white py-16 lg:py-24 relative overflow-hidden">

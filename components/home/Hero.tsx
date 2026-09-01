@@ -222,7 +222,7 @@ export function Hero() {
         <img
           src="/images/hero-isometric-cube.png"
           alt="Automation"
-          className="h-64 sm:h-72 lg:h-80 w-auto object-contain drop-shadow-2xl"
+          className="h-72 sm:h-88 lg:h-[420px] w-auto object-contain drop-shadow-2xl"
         />
       ),
       tag1: { label: "Automation", top: "15%", left: "64%" },
