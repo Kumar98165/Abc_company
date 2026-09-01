@@ -230,3 +230,23 @@ img {
 .animate-fade-in {
   animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+/* ─── Custom Visible Orange Scrollbar Utility ─── */
+.custom-orange-scrollbar::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+.custom-orange-scrollbar::-webkit-scrollbar-track {
+  background: #FFF2EA;
+  border-radius: 9999px;
+  border: 1px solid #FFD9C2;
+}
+.custom-orange-scrollbar::-webkit-scrollbar-thumb {
+  background: #FF5F00;
+  border-radius: 9999px;
+}
+.custom-orange-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #E04B00;
+}
+
+

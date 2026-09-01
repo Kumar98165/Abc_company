@@ -132,7 +132,7 @@ export function ServicesContainer() {
   const [expandedNum, setExpandedNum] = useState<string | null>("01");
 
   return (
-    <section className="relative w-full bg-[#FFFFFF] py-16 lg:py-24 text-[#101820] overflow-hidden">
+    <section className="relative w-full bg-[#FFFFFF] pt-16 lg:pt-24 pb-4 sm:pb-6 text-[#101820] overflow-hidden">
       
       {/* Background Blueprint Decorative Lines (Top Right) */}
       <div className="absolute top-0 right-0 w-[450px] h-[350px] pointer-events-none opacity-40 select-none">

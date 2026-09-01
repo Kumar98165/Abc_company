@@ -199,7 +199,8 @@ export function AboutClient() {
         {/* Goal, Vision & Mission Flow Timeline */}
         <section className="pillars-section">
           {/* Custom style matching the exact HTML template */}
-          <style dangerouslySetInnerHTML={{ __html: `
+          <style dangerouslySetInnerHTML={{
+            __html: `
             .pillars-section {
               width: 100%;
               padding: 40px 20px;
@@ -753,7 +754,7 @@ export function AboutClient() {
                    BOTTOM HIGHLIGHTS
               ====================== */}
               <div className="highlights">
-                
+
                 <div className="highlight">
                   <div className="highlight-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -818,7 +819,7 @@ export function AboutClient() {
         {/* How We Work Section */}
         <section className="py-16 bg-[#FAF8F5] relative overflow-hidden border-t border-slate-200/40">
           <div className="section-shell max-w-6xl mx-auto px-4">
-            
+
             {/* Header */}
             <div className="text-center max-w-3xl mx-auto mb-16">
               <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#FF6A00]">Our Process</span>
@@ -835,7 +836,7 @@ export function AboutClient() {
 
               {/* Grid of Steps */}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6 relative z-10">
-                
+
                 {/* Step 1: Discover */}
                 <div className="flex flex-col items-center text-center group">
                   <div className="w-16 h-16 rounded-full bg-white border border-slate-200/60 shadow-sm flex items-center justify-center relative transition-all duration-500 group-hover:scale-105 group-hover:shadow-md z-10">
@@ -930,7 +931,7 @@ export function AboutClient() {
         {/* Achievements Section */}
         <section className="py-16 bg-[#FAF8F5] relative overflow-hidden border-t border-slate-200/40">
           <div className="section-shell max-w-6xl mx-auto px-4">
-            
+
             {/* Header */}
             <div className="text-center max-w-3xl mx-auto mb-16">
               <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#FF6A00]">Milestones</span>
@@ -942,11 +943,11 @@ export function AboutClient() {
 
             {/* Achievements Grid with 3D Perspective */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch [perspective:1000px]">
-              
+
               {/* Card 1 */}
               <div className="bg-white border border-slate-200/60 rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.02)] transition-all duration-500 hover:-translate-y-2 [transform-style:preserve-3d] hover:[transform:rotateX(4deg)_rotateY(-3deg)] hover:shadow-[0_20px_45px_rgba(255,106,0,0.05),_0_15px_30px_rgba(0,0,0,0.04)] flex flex-col h-full justify-between group">
                 <div className="flex-1 flex flex-col [transform-style:preserve-3d]">
-                  <div 
+                  <div
                     className="relative h-32 w-full overflow-hidden rounded-xl mb-4 border border-slate-100 bg-[#FAF8F5] cursor-pointer group/img [transform:translateZ(10px)] transition-transform duration-500 group-hover:shadow-md"
                     onClick={() => setLightboxImage("https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop")}
                   >
@@ -967,7 +968,7 @@ export function AboutClient() {
                     Enterprise-grade backends and cloud infrastructures successfully shipped.
                   </p>
                 </div>
-                
+
                 {/* Footer Badge */}
                 <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between [transform:translateZ(10px)]">
                   <span className="text-[8px] font-bold text-[#FF6A00] uppercase tracking-wider bg-orange-50 px-2 py-0.5 rounded-full border border-orange-100/40">Audit Verified</span>
@@ -978,7 +979,7 @@ export function AboutClient() {
               {/* Card 2 */}
               <div className="bg-white border border-slate-200/60 rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.02)] transition-all duration-500 hover:-translate-y-2 [transform-style:preserve-3d] hover:[transform:rotateX(4deg)_rotateY(-3deg)] hover:shadow-[0_20px_45px_rgba(255,106,0,0.05),_0_15px_30px_rgba(0,0,0,0.04)] flex flex-col h-full justify-between group">
                 <div className="flex-1 flex flex-col [transform-style:preserve-3d]">
-                  <div 
+                  <div
                     className="relative h-32 w-full overflow-hidden rounded-xl mb-4 border border-slate-100 bg-[#FAF8F5] cursor-pointer group/img [transform:translateZ(10px)] transition-transform duration-500 group-hover:shadow-md"
                     onClick={() => setLightboxImage("https://images.unsplash.com/photo-1600132806370-bf17e65e942f?q=80&w=1200&auto=format&fit=crop")}
                   >
@@ -1010,7 +1011,7 @@ export function AboutClient() {
               {/* Card 3 */}
               <div className="bg-white border border-slate-200/60 rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.02)] transition-all duration-500 hover:-translate-y-2 [transform-style:preserve-3d] hover:[transform:rotateX(4deg)_rotateY(-3deg)] hover:shadow-[0_20px_45px_rgba(255,106,0,0.05),_0_15px_30px_rgba(0,0,0,0.04)] flex flex-col h-full justify-between group">
                 <div className="flex-1 flex flex-col [transform-style:preserve-3d]">
-                  <div 
+                  <div
                     className="relative h-32 w-full overflow-hidden rounded-xl mb-4 border border-slate-100 bg-[#FAF8F5] cursor-pointer group/img [transform:translateZ(10px)] transition-transform duration-500 group-hover:shadow-md"
                     onClick={() => setLightboxImage("https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1200&auto=format&fit=crop")}
                   >
@@ -1042,7 +1043,7 @@ export function AboutClient() {
               {/* Card 4 */}
               <div className="bg-white border border-slate-200/60 rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.02)] transition-all duration-500 hover:-translate-y-2 [transform-style:preserve-3d] hover:[transform:rotateX(4deg)_rotateY(-3deg)] hover:shadow-[0_20px_45px_rgba(255,106,0,0.05),_0_15px_30px_rgba(0,0,0,0.04)] flex flex-col h-full justify-between group">
                 <div className="flex-1 flex flex-col [transform-style:preserve-3d]">
-                  <div 
+                  <div
                     className="relative h-32 w-full overflow-hidden rounded-xl mb-4 border border-slate-100 bg-[#FAF8F5] cursor-pointer group/img [transform:translateZ(10px)] transition-transform duration-500 group-hover:shadow-md"
                     onClick={() => setLightboxImage("https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=1200&auto=format&fit=crop")}
                   >
@@ -1079,7 +1080,7 @@ export function AboutClient() {
         {/* Demonstration & Seminar Showcase Section */}
         <section className="py-16 bg-[#FAF8F5] relative overflow-hidden border-t border-slate-200/40">
           <div className="section-shell max-w-6xl mx-auto px-4">
-            
+
             {/* Header */}
             <div className="text-center max-w-3xl mx-auto mb-16">
               <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#FF6A00]">Capabilities</span>
@@ -1091,12 +1092,12 @@ export function AboutClient() {
 
             {/* Video Cards Grid (3 Columns) */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              
+
               {/* Card 1: Enterprise Cloud Architecture */}
               <div className="bg-white border border-slate-200/60 rounded-2xl p-4 shadow-[0_10px_25px_rgba(0,0,0,0.02)] hover:shadow-[0_15px_35px_rgba(0,0,0,0.05)] transition-all duration-500 hover:-translate-y-1 flex flex-col">
                 <div className="relative aspect-video w-full rounded-xl overflow-hidden border border-slate-100 bg-[#FAF8F5] mb-4">
-                  <video 
-                    className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity duration-300" 
+                  <video
+                    className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity duration-300"
                     controls
                     autoPlay
                     loop
@@ -1114,8 +1115,8 @@ export function AboutClient() {
               {/* Card 2: Dedicated Squad Delivery */}
               <div className="bg-white border border-slate-200/60 rounded-2xl p-4 shadow-[0_10px_25px_rgba(0,0,0,0.02)] hover:shadow-[0_15px_35px_rgba(0,0,0,0.05)] transition-all duration-500 hover:-translate-y-1 flex flex-col">
                 <div className="relative aspect-video w-full rounded-xl overflow-hidden border border-slate-100 bg-[#FAF8F5] mb-4">
-                  <video 
-                    className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity duration-300" 
+                  <video
+                    className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity duration-300"
                     controls
                     autoPlay
                     loop
@@ -1133,8 +1134,8 @@ export function AboutClient() {
               {/* Card 3: Product Platform Engineering */}
               <div className="bg-white border border-slate-200/60 rounded-2xl p-4 shadow-[0_10px_25px_rgba(0,0,0,0.02)] hover:shadow-[0_15px_35px_rgba(0,0,0,0.05)] transition-all duration-500 hover:-translate-y-1 flex flex-col">
                 <div className="relative aspect-video w-full rounded-xl overflow-hidden border border-slate-100 bg-[#FAF8F5] mb-4">
-                  <video 
-                    className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity duration-300" 
+                  <video
+                    className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity duration-300"
                     controls
                     autoPlay
                     loop
@@ -1157,7 +1158,7 @@ export function AboutClient() {
         {/* Products & Platforms Section */}
         <section className="py-16 bg-[#FAF8F5] relative overflow-hidden border-t border-slate-200/40">
           <div className="section-shell max-w-6xl mx-auto px-4">
-            
+
             {/* Header */}
             <div className="text-center max-w-3xl mx-auto mb-16">
               <span className="text-xs font-bold uppercase tracking-[0.25em] text-[#FF6A00]">Our Built Assets</span>
@@ -1170,14 +1171,14 @@ export function AboutClient() {
             {/* Products Grid (4 Columns) with 3D Perspective */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch [perspective:1000px]">
               {productsData.map((product) => (
-                <div 
+                <div
                   key={product.id}
                   className="bg-white border border-slate-200/60 rounded-2xl p-5 shadow-[0_10px_25px_rgba(0,0,0,0.02)] transition-all duration-500 hover:-translate-y-2 [transform-style:preserve-3d] hover:[transform:rotateX(4deg)_rotateY(-3deg)] hover:shadow-[0_20px_45px_rgba(255,106,0,0.05),_0_15px_30px_rgba(0,0,0,0.04)] flex flex-col h-full justify-between group"
                 >
                   {/* Content Top Segment */}
                   <div className="flex-1 flex flex-col [transform-style:preserve-3d]">
                     {/* Product Image container */}
-                    <div 
+                    <div
                       className="relative h-32 w-full overflow-hidden rounded-xl mb-4 border border-slate-100 bg-[#FAF8F5] cursor-pointer group/img [transform:translateZ(10px)] transition-transform duration-500 group-hover:shadow-md"
                       onClick={() => setLightboxImage(product.image)}
                     >
@@ -1192,7 +1193,7 @@ export function AboutClient() {
                         </svg>
                       </div>
                     </div>
-                    
+
                     {/* Category Tag */}
                     <span className="text-[9px] font-bold uppercase tracking-wider text-[#FF6A00] bg-orange-50 px-2 py-0.5 rounded-full border border-orange-100/50 self-start mb-2.5 [transform:translateZ(15px)]">
                       {product.category}
@@ -1200,7 +1201,7 @@ export function AboutClient() {
 
                     {/* Product Name */}
                     <h3 className="text-sm font-bold text-[#0e1726] tracking-tight hover:text-[#FF6A00] transition-colors leading-snug [transform:translateZ(15px)]">{product.name}</h3>
-                    
+
                     {/* Product Description */}
                     <p className="text-[10px] text-[#687386] mt-2 leading-relaxed flex-grow [transform:translateZ(15px)]">
                       {product.description}
@@ -1209,7 +1210,7 @@ export function AboutClient() {
                     {/* Technology Badges */}
                     <div className="flex flex-wrap gap-1 mt-4 pt-1 mb-4 [transform:translateZ(10px)]">
                       {product.technologies.slice(0, 3).map((tech) => (
-                        <span 
+                        <span
                           key={tech}
                           className="text-[8.5px] font-bold uppercase tracking-wider text-slate-500 bg-slate-100/80 px-2 py-0.5 rounded border border-slate-200/30"
                         >
@@ -1229,7 +1230,7 @@ export function AboutClient() {
                     {product.projectLink ? (
                       <>
                         <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Production Live</span>
-                        <a 
+                        <a
                           href={product.projectLink}
                           className="inline-flex items-center gap-1 text-[10px] font-bold text-[#FF6A00] hover:text-[#E64A00] transition-colors group/btn"
                         >
@@ -1341,12 +1342,12 @@ export function AboutClient() {
 
         {/* Lightbox Modal */}
         {lightboxImage && (
-          <div 
+          <div
             className="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 cursor-zoom-out"
             onClick={() => setLightboxImage(null)}
           >
             <div className="relative max-w-4xl max-h-[85vh] w-full h-full flex items-center justify-center">
-              <button 
+              <button
                 className="absolute top-4 right-4 text-white hover:text-slate-300 bg-black/50 hover:bg-black/80 rounded-full w-10 h-10 flex items-center justify-center text-xl transition-colors cursor-pointer z-50"
                 onClick={(e) => {
                   e.stopPropagation();
@@ -1355,9 +1356,9 @@ export function AboutClient() {
               >
                 ✕
               </button>
-              <img 
-                src={lightboxImage} 
-                alt="Full Size View" 
+              <img
+                src={lightboxImage}
+                alt="Full Size View"
                 className="max-w-full max-h-full rounded-xl object-contain shadow-2xl border border-white/10"
                 onClick={(e) => e.stopPropagation()}
               />

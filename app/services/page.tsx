@@ -2,12 +2,11 @@ import Image from "next/image";
 import { siteConfig } from "@/data/home";
 import { Navbar } from "@/components/home/Navbar";
 import { Footer } from "@/components/home/Footer";
-import { CTA } from "@/components/home/CTA";
 import { ServicesContainer } from "@/components/services/ServicesContainer";
 import { servicesData } from "@/data/services";
-import { ProductsShowcase } from "@/components/services/ProductsShowcase";
 import { TrustLogos } from "@/components/home/TrustLogos";
 import TechStackShowcase from "@/components/services/TechStackShowcase";
+import { EnterpriseSecurityTrustBar } from "@/components/services/EnterpriseSecurityTrustBar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -22,8 +21,6 @@ export const metadata: Metadata = {
     "Cloud DevOps automation",
   ],
 };
-
-
 
 export default function ServicesPage() {
   const schemaService = {
@@ -147,102 +144,8 @@ export default function ServicesPage() {
         {/* Technology Stack Section */}
         <TechStackShowcase />
 
-        {/* Development Approach Section */}
-        <section className="bg-[#0F0F0F] text-white py-16 lg:py-24 relative overflow-hidden">
-          {/* Subtle radial glow */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(255,95,0,0.07),_transparent_60%)] pointer-events-none" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(247,158,27,0.05),_transparent_60%)] pointer-events-none" />
-
-          <div className="section-shell relative">
-            <div className="text-center">
-              <span className="inline-flex items-center gap-2 rounded-full border border-[#FF5F00]/30 bg-[#FF5F00]/10 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.2em] text-[#FF5F00]">
-                Our Methodology
-              </span>
-              <h2 className="mt-6 text-3xl font-extrabold tracking-tight sm:text-4xl">Our Development Approach</h2>
-              <p className="mx-auto mt-4 max-w-2xl text-base text-white/50">
-                We combine rapid prototyping with enterprise engineering safety to deliver production outcomes.
-              </p>
-            </div>
-
-            <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-              {[
-                { num: "01", title: "Discovery & Strategy", desc: "We collaborate to specify project scope, user personas, key timelines, and initial blueprint maps." },
-                { num: "02", title: "Architecture & Design", desc: "Designing robust database models, API schemas, and interactive user prototypes for visual review." },
-                { num: "03", title: "Agile Engineering", desc: "Bi-weekly sprints, comprehensive automated test coverage, and frequent code reviews verify stability." },
-                { num: "04", title: "Deployment & Scale", desc: "Continuous integration pipelines release securely on cloud platforms, backed by liveness logging." },
-              ].map(({ num, title, desc }) => (
-                <div key={num} className="group flex flex-col items-start relative">
-                  {/* Connector line (hidden on last) */}
-                  <div className="flex items-center gap-4 w-full">
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#FF5F00]/10 border border-[#FF5F00]/25 text-[#FF5F00] font-extrabold text-sm group-hover:bg-[#FF5F00] group-hover:text-white transition-all duration-300">{num}</span>
-                    <div className="flex-1 h-px bg-white/10 group-last:hidden" />
-                  </div>
-                  <h3 className="mt-6 text-xl font-bold">{title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-white/50">{desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Why Choose Us Section */}
-        <section className="section-shell py-16 lg:py-24">
-          <div className="text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#FF5F00]/30 bg-[#FF5F00]/8 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.2em] text-[#FF5F00]">
-              Why Us
-            </span>
-            <h2 className="mt-5 text-3xl font-extrabold tracking-tight text-[#1A1A1A] sm:text-4xl">Why Choose Us</h2>
-            <p className="mx-auto mt-4 max-w-2xl text-base text-[#6B6B6B]">
-              We focus on building actual business outcomes, maintaining transparency and engineering safety.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              {
-                icon: (
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="#FF5F00">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                  </svg>
-                ),
-                title: "Enterprise Standards",
-                desc: "We write clean, documented, and fully tested code that conforms to modern design pattern requirements.",
-              },
-              {
-                icon: (
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="#FF5F00">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                ),
-                title: "AI-native Strategy",
-                desc: "We don't just add LLM wrapper API calls; we architect multi-agent systems and contextual RAG databases.",
-              },
-              {
-                icon: (
-                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="#FF5F00">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                ),
-                title: "Outcome Transparency",
-                desc: "Bi-weekly reviews, open communication, and detailed execution milestones prevent delays or surprises.",
-              },
-            ].map(({ icon, title, desc }) => (
-              <div key={title} className="group rounded-2xl border border-[#E8E0D8] bg-white p-7 shadow-sm hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-900/8 hover:border-[#FF5F00]/20 transition-all duration-300">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#FFF4EC] border border-[#FFE5CC] group-hover:bg-[#FF5F00] group-hover:border-[#FF5F00] transition-all duration-300">
-                  <span className="group-hover:[&_svg]:stroke-white [&_svg]:transition-all [&_svg]:duration-300">{icon}</span>
-                </div>
-                <h3 className="mt-5 text-lg font-extrabold text-[#1A1A1A] group-hover:text-[#FF5F00] transition-colors duration-200">{title}</h3>
-                <p className="mt-2.5 text-sm text-[#6B6B6B] leading-relaxed">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Products & Platforms Showcase */}
-        <ProductsShowcase />
-
-        {/* CTA Component */}
-        <CTA />
+        {/* Enterprise Security & Compliance Trust Section */}
+        <EnterpriseSecurityTrustBar />
       </main>
       <Footer />
     </>
