@@ -17,10 +17,11 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
+  { label: "Technology", href: "/technology" },
+  { label: "About", href: "/about" },
+  { label: "Insights", href: "/insights" },
   { label: "Careers", href: "/careers" },
-  { label: "Blog", href: "#blog" },
 ];
 
 function LogoMark() {
@@ -162,18 +163,15 @@ export function Navbar() {
     };
   }, [open]);
 
-  // Handle link clicking, showing custom alert for unbuilt pages
+  // Handle link clicking
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, label: string, href: string) => {
     const isUnimplementedHash = href.startsWith("#") && (
-      href === "#careers" ||
-      href === "#blog" ||
       label.toLowerCase().includes("our team") ||
       label.toLowerCase().includes("crm") ||
       label.toLowerCase().includes("erp") ||
       label.toLowerCase().includes("saas") ||
       label.toLowerCase().includes("e-commerce") ||
-      label.toLowerCase().includes("automation") ||
-      label.toLowerCase().includes("blog")
+      label.toLowerCase().includes("automation")
     );
 
     if (isUnimplementedHash) {
@@ -201,7 +199,6 @@ export function Navbar() {
       setActiveDropdown(null);
       setOpen(false);
     } else if (href.startsWith("/services")) {
-      // Allow browser to route. If we are on services, scroll to core-services if filter is applied
       const isServicesPage = typeof window !== "undefined" && window.location.pathname === "/services";
       if (isServicesPage) {
         setTimeout(() => {
@@ -226,28 +223,9 @@ export function Navbar() {
       }
       setActiveDropdown(null);
       setOpen(false);
-    } else if (href.startsWith("/contact")) {
+    } else if (href.startsWith("/contact") || href.startsWith("/insights") || href.startsWith("/careers")) {
       setActiveDropdown(null);
       setOpen(false);
-    }
-  };
-
-  const getActiveLabel = (sectionId: string) => {
-    switch (sectionId) {
-      case "top":
-        return "Home";
-      case "about":
-        return "Company";
-      case "services":
-        return "Services";
-      case "ai-technology":
-        return "Technology";
-      case "industries":
-        return "Industries";
-      case "case-studies":
-        return "Case Studies";
-      default:
-        return "";
     }
   };
 
@@ -258,6 +236,8 @@ export function Navbar() {
     currentActiveLabel = "Services";
   } else if (pathname?.startsWith("/careers")) {
     currentActiveLabel = "Careers";
+  } else if (pathname?.startsWith("/insights")) {
+    currentActiveLabel = "Insights";
   } else if (pathname === "/technology") {
     currentActiveLabel = "Technology";
   } else if (pathname === "/industries") {
@@ -309,8 +289,8 @@ export function Navbar() {
           <nav className="flex h-20 items-center justify-between gap-4" aria-label="Primary navigation">
             {/* Logo area */}
             <a
-              href="#top"
-              onClick={(e) => handleLinkClick(e, "Home", "#top")}
+              href="/"
+              onClick={(e) => handleLinkClick(e, "Home", "/")}
               className="flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5F00] focus-visible:ring-offset-2 rounded"
             >
               <LogoMark />

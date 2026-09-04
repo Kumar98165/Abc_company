@@ -24,7 +24,7 @@ export function Footer() {
   };
 
   const handleUnimplementedClick = (e: React.MouseEvent, label: string) => {
-    const isSpecialLink = label.toLowerCase().includes("privacy") || label.toLowerCase().includes("terms") || label.toLowerCase().includes("cookie") || label.toLowerCase().includes("careers") || label.toLowerCase().includes("blog");
+    const isSpecialLink = label.toLowerCase().includes("privacy") || label.toLowerCase().includes("terms") || label.toLowerCase().includes("cookie");
     if (isSpecialLink) {
       e.preventDefault();
       alert(`✨ The "${label}" section is under development. Stay tuned for updates!`);
@@ -92,7 +92,7 @@ export function Footer() {
           <div className="space-y-4">
             <h3 className="text-xs font-bold uppercase tracking-[0.24em] text-[#FF5F00]">Company</h3>
             <ul className="space-y-2.5 text-xs text-[#B09A8A]">
-              <li><a href="/#about" className="transition-colors hover:text-white hover:text-[#FF5F00]">About Us</a></li>
+              <li><a href="/#about" className="transition-colors hover:text-[#FF5F00]">About Us</a></li>
               <li><a href="/#about" className="transition-colors hover:text-[#FF5F00]">Our Team</a></li>
               <li><a href="/careers" className="transition-colors hover:text-[#FF5F00]">Careers</a></li>
               <li><a href="/contact" className="transition-colors hover:text-[#FF5F00]">Contact</a></li>
@@ -141,7 +141,7 @@ export function Footer() {
             <h3 className="text-xs font-bold uppercase tracking-[0.24em] text-[#FF5F00]">Resources</h3>
             <ul className="space-y-2.5 text-xs text-[#B09A8A]">
               <li><a href="/#case-studies" className="transition-colors hover:text-[#FF5F00]">Case Studies</a></li>
-              <li><a href="#blog" onClick={(e) => handleUnimplementedClick(e, "Blog")} className="transition-colors hover:text-[#FF5F00]">Blog</a></li>
+              <li><a href="/insights" className="transition-colors hover:text-[#FF5F00]">Insights</a></li>
               <li><a href="/technology" className="transition-colors hover:text-[#FF5F00]">Technology</a></li>
               <li><a href="/#faq" className="transition-colors hover:text-[#FF5F00]">FAQ</a></li>
             </ul>

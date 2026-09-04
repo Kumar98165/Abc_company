@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { GlobalCareerNavigator } from "@/components/careers/navigator/GlobalCareerNavigator";
+import { AdminProvider } from "@/components/admin/AdminContext";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -68,9 +69,11 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
-        {children}
-        {/* Global AI Career Navigator Floating Agent on All Pages */}
-        <GlobalCareerNavigator />
+        <AdminProvider>
+          {children}
+          {/* Global AI Career Navigator Floating Agent on All Pages */}
+          <GlobalCareerNavigator />
+        </AdminProvider>
       </body>
     </html>
   );
